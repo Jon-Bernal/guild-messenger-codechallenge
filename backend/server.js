@@ -1,3 +1,4 @@
+require("dotenv").config();
 const webSocketServer = require("websocket").server;
 const http = require("http");
 const uuidv4 = require("uuid").v4;
@@ -16,8 +17,8 @@ const wsServer = new webSocketServer({
 const clients = {};
 
 wsServer.on("request", function (req) {
-  var userID = uuidv4();
-  console.log("userID :>> ", userID);
+  var socketID = uuidv4();
+  console.log("userID :>> ", socketID);
   // log new connection
   console.log(
     `${new Date()} Recieved a new connection from origin ${req.origin}.`
@@ -26,8 +27,10 @@ wsServer.on("request", function (req) {
   // Todo: rewrite this to accept only requests from allowed origins
   // Create fresh connection with userid
   const connection = req.accept(null, req.origin);
-  clients[userID] = connection;
-  console.log(`connected: ${userID} in ${Object.getOwnPropertyNames(clients)}`);
+  clients[socketID] = connection;
+  console.log(
+    `connected: ${socketID} in ${Object.getOwnPropertyNames(clients)}`
+  );
 
   connection.on("message", function (message) {
     if (message.type === "utf8") {

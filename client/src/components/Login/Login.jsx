@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
+import axios from "axios";
+import { baseURL } from "../../config/clientConfig";
 
 const Login = () => {
   const { globalState, globalDispatcher } = useContext(GlobalContext);
@@ -11,6 +13,14 @@ const Login = () => {
       globalDispatcher({ type: "login successful" });
     } else {
       globalDispatcher({ type: "login failed" });
+    }
+  }
+
+  function signup({ username, pass }) {
+    if (username && pass) {
+      axios.post(`${baseURL}/login`, {
+        body: { username: username, pass: pass },
+      });
     }
   }
 
@@ -61,6 +71,15 @@ const Login = () => {
             }}
           >
             Login
+          </button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              signup({ username, pass });
+            }}
+            style={{ marginTop: "20px", background: "#0c6" }}
+          >
+            Sign Up
           </button>
         </form>
       </div>

@@ -2,7 +2,8 @@ import React, { createContext, useReducer, useEffect } from "react";
 
 // Websocket connection
 import { w3cwebsocket as w3cws } from "websocket";
-const ws = new w3cws("ws://127.0.0.1:5000");
+import { baseWebsocketURL } from "../config/clientConfig";
+const ws = new w3cws(baseWebsocketURL);
 
 export const GlobalContext = createContext();
 
