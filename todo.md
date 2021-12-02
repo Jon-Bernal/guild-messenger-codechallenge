@@ -7,8 +7,9 @@ TODO:
 [x] - send username
 [x] - make global context
 [X] - organize frontend
-[ ] - hook up mongodb
-[ ] - hook up login flow
+[X] - hook up mongodb
+[x] - hook up expressjs
+[ ] - hook up stupid simple login flow
 [ ] - make conversation rooms
 [ ] - make users searchable
 [ ] - convo selection
