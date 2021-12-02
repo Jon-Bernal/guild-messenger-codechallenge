@@ -4,7 +4,7 @@ body {
 }
 
 #form {
-  background: rgba(255, 255, 255, 0.3);
+  /* background: rgba(255, 255, 255, 0.3); */
   padding: 0.25rem;
   position: fixed;
   bottom: 0;
@@ -14,12 +14,14 @@ body {
   height: 3rem;
   box-sizing: border-box;
   backdrop-filter: blur(10px);
+  max-width: 1000px;
+  margin: 0 auto;
 }
 #input {
   border: none;
   padding: 0 1rem;
   flex-grow: 1;
-  border-radius: 2rem;
+  border-radius: 6px;
   margin: 0.25rem;
 }
 #input:focus {
@@ -37,12 +39,62 @@ body {
 
 #messages {
   list-style-type: none;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 1000px;
+  max-height: calc(100% - 48px);
 }
+
 #messages > li {
   padding: 0.5rem 1rem;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  max-width: 600px;
+  overflow-wrap: break-word;
 }
-#messages > li:nth-child(odd) {
-  background: #ffffff33;
+#messages > li[data-mine="false"] {
+  background: #555;
+  margin-right: auto;
+}
+
+#messages > li[data-mine="true"] {
+  background: #17bf35;
+  margin-left: auto;
+}
+
+.messageUserLabel {
+  font-size: 1.2rem;
+}
+
+#loginForm {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #323232;
+}
+#loginForm label {
+  margin-bottom: 20px;
+}
+
+#loginForm input {
+  margin-left: 20px;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+#loginForm button {
+  background: #185abc;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  padding: 8px;
 }
