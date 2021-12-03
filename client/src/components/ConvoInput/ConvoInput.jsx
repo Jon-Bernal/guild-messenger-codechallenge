@@ -7,7 +7,7 @@ const Convoinput = () => {
   const { userID, convoInput, convoPartner, username } = globalState;
 
   function sendMessage(string, recipient) {
-    if (string && convoPartner) {
+    if (string && recipient) {
       ws.send(
         JSON.stringify({
           type: "message",

@@ -89,7 +89,10 @@ export const globalReducer = (state, action) => {
 };
 
 export const GlobalProvider = (props) => {
-  const [globalState, globalDispatcher] = useReducer(globalReducer, initState);
+  const [globalState, globalDispatcher] = useReducer(
+    globalReducer,
+    props?.testing ? props.testing : initState
+  );
   const { userID, loggedIn, convoPartner } = globalState;
 
   // ============== Chat Websocket Stuff ============ //
@@ -141,7 +144,7 @@ export const GlobalProvider = (props) => {
             });
           }
         } catch (err) {
-          toast.error("Search broke, sorry! Try reloading");
+          toast.error("User list broke, sorry! Try reloading");
         }
       }
       getUsers();

@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import { render, screen } from "@testing-library/react";
 import App from "./App";
 import {
@@ -24,11 +25,12 @@ test("renders userlist when loggedin", () => {
   ];
   initState.convoPartner = "012345678910";
   initState.loggedIn = true;
+  initState.userID = "123123123123";
 
   render(
-    <GlobalContext.Provider value={{ globalState: initState }}>
+    <GlobalProvider testing={initState}>
       <App />
-    </GlobalContext.Provider>
+    </GlobalProvider>
   );
   const user1 = screen.getByText("tester");
   expect(user1).toBeInTheDocument();

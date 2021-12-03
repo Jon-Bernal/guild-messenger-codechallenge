@@ -66,17 +66,11 @@ async function run() {
 
       connection.on("message", async function (message) {
         if (message.type === "utf8") {
-          console.log(`Received Message: ${message.utf8Data}`);
-          console.log("message :>> ", JSON.parse(message.utf8Data));
           const msgData = JSON.parse(message.utf8Data);
           const recipient = msgData?.recipient;
           const senderID = msgData?.userID;
           const sender = msgData?.username;
           const msg = msgData.msg;
-
-          console.log("recipient :>> ", recipient);
-          console.log("sender :>> ", senderID);
-          console.log("msg :>> ", msg);
 
           // TODO: if no convoid should have an error case here
           // check for convoID
