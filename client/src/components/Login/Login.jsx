@@ -2,34 +2,68 @@ import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import axios from "axios";
 import { baseURL } from "../../config/clientConfig";
+import toast from "react-hot-toast";
+
+// import bcrypt from "bcrypt";
 
 const Login = () => {
   const { globalState, globalDispatcher } = useContext(GlobalContext);
   const { username, pass, loggedIn } = globalState;
 
-  function login({ username, pass }) {
+  async function login({ username, pass }) {
     if (username && pass) {
-      // reset username and pass fields
-      globalDispatcher({ type: "login successful" });
-    } else {
-      globalDispatcher({ type: "login failed" });
+      try {
+        const response = await axios.post(`${baseURL}/auth/login`, {
+          username: username,
+          pass: pass,
+        });
+        if (response?.data?.userID) {
+          globalDispatcher({
+            type: "login successful",
+            userID: response.data.userID,
+            username: response.data.username,
+          });
+          return;
+        }
+      } catch (err) {
+        toast.error(`login failed because of ${err}`);
+        return;
+      }
     }
+    toast.error("login failed try again");
   }
 
-  function signup({ username, pass }) {
+  async function signup({ username, pass }) {
     if (username && pass) {
-      axios.post(`${baseURL}/login`, {
-        body: { username: username, pass: pass },
-      });
+      try {
+        const response = await axios.post(`${baseURL}/auth/signup`, {
+          username: username,
+          pass: pass,
+        });
+
+        if (response?.data?.userID) {
+          globalDispatcher({
+            type: "login successful",
+            userID: response.data.userID,
+            username: username,
+          });
+          return;
+        }
+        toast.error(`Error: ${response.data.error}`);
+      } catch (err) {
+        toast.error(`Error: ${err}`);
+      }
+    } else {
+      toast.error("Please fill in both fields");
     }
   }
 
   // ============== Login Stuff ============ //
 
-  function logout() {
-    // reset everything here!
-    globalDispatcher({ type: "log out" });
-  }
+  // function logout() {
+  //   // reset everything here!
+  //   globalDispatcher({ type: "log out" });
+  // }
 
   if (!loggedIn) {
     return (

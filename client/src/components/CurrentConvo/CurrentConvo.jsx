@@ -11,8 +11,8 @@ const Currentconvo = () => {
         {convo &&
           convo.map((m, idx) => {
             return (
-              <li key={idx} data-mine={`${m.user === username}`}>
-                <p className="messageUserLabel">{m.user}:</p>
+              <li key={idx} data-mine={`${m.username === username}`}>
+                <p className="messageUserLabel">{m.username}:</p>
                 <p>{m.msg}</p>
               </li>
             );

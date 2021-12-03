@@ -9,10 +9,9 @@ TODO:
 [X] - organize frontend
 [X] - hook up mongodb
 [x] - hook up expressjs
-[ ] - hook up stupid simple login flow
-[ ] - make conversation rooms
+[x] - hook up stupidly simple login flow
 [ ] - make users searchable
-[ ] - convo selection
+[ ] - make user convo selection
 [ ] - make a few api tests
 [ ] - make a few ui tests
 [ ] - make dad joke convo

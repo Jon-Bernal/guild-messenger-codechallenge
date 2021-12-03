@@ -1,27 +1,41 @@
 import { useContext } from "react";
-import "./App.css";
 import { GlobalContext } from "./context/GlobalContext";
+import "./App.css";
 
 // ----- Components ----- //
+import { Toaster } from "react-hot-toast";
 import Login from "./components/Login/Login";
 import CurrentConvo from "./components/CurrentConvo/CurrentConvo";
 import ConvoInput from "./components/ConvoInput/ConvoInput";
+import Selectconvo from "./components/SelectConvo/SelectConvo";
 
 function App() {
-  const { globalState, globalDispatcher, ws } = useContext(GlobalContext);
-  const { username, loggedIn, convoInput, convo } = globalState;
-
-  console.log("loggedIn :>> ", loggedIn);
+  const { globalState } = useContext(GlobalContext);
+  const { loggedIn } = globalState;
 
   return (
     <div className="App">
       <Login />
       {loggedIn && (
         <>
-          <CurrentConvo />
-          <ConvoInput />
+          <div style={{ minHeight: "100vh", display: "flex" }}>
+            <Selectconvo />
+            <div
+              style={{
+                border: "1px solid green",
+                flexGrow: "1",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <CurrentConvo />
+              <ConvoInput />
+            </div>
+          </div>
         </>
       )}
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 }
