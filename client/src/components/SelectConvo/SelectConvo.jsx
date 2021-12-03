@@ -26,7 +26,7 @@ const Selectconvo = () => {
               globalDispatcher({ type: "set convoPartner", userID: u.userID });
             }}
             style={{
-              width: "max-content",
+              width: "100%",
               padding: "6px 10px",
               maxWidth: "150px",
               overflow: "hidden",

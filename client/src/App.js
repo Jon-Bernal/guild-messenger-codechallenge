@@ -22,7 +22,6 @@ function App() {
             <Selectconvo />
             <div
               style={{
-                border: "1px solid green",
                 flexGrow: "1",
                 display: "flex",
                 flexDirection: "column",
