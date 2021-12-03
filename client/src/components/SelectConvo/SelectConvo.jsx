@@ -3,23 +3,11 @@ import { GlobalContext } from "../../context/GlobalContext";
 
 const Selectconvo = () => {
   const { globalState, globalDispatcher } = useContext(GlobalContext);
-  const {
-    username,
-    userID,
-    pass,
-    loggedIn,
-    convoInput,
-    convo,
-    userList,
-    convoPartner,
-  } = globalState;
-
-  console.log("userList :>> ", userList);
+  const { userList, convoPartner } = globalState;
 
   return (
     <div>
       {userList.map((u) => {
-        console.log("u :>> ", u);
         return (
           <p
             onClick={() => {

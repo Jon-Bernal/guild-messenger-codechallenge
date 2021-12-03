@@ -3,7 +3,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 
 const Currentconvo = () => {
   const { globalState, globalDispatcher, ws } = useContext(GlobalContext);
-  const { username, loggedIn, convoInput, convo } = globalState;
+  const { username, convo } = globalState;
 
   return (
     <div>

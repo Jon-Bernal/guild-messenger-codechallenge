@@ -9,7 +9,7 @@ let ws;
 
 export const GlobalContext = createContext();
 
-const initState = {
+export const initState = {
   username: "",
   pass: "",
   loggedIn: "",
@@ -22,7 +22,7 @@ const initState = {
 
 // Left this reducer super clear for you all to look through instead of making a single set field reducer.
 // Hopefully this will make it easier to read and understand the different things this can do.
-const globalReducer = (state, action) => {
+export const globalReducer = (state, action) => {
   switch (action.type) {
     case "set pass":
       return {
@@ -90,19 +90,16 @@ const globalReducer = (state, action) => {
 
 export const GlobalProvider = (props) => {
   const [globalState, globalDispatcher] = useReducer(globalReducer, initState);
-  const { username, userID, pass, loggedIn, convoInput, convo, convoPartner } =
-    globalState;
+  const { userID, loggedIn, convoPartner } = globalState;
 
   // ============== Chat Websocket Stuff ============ //
 
   function updateConvo(msg) {
-    console.log("New msg :>> ", msg);
     globalDispatcher({ type: "received msg", msg });
   }
 
   useEffect(() => {
     if (loggedIn) {
-      console.log("userID :>> ", userID);
       ws = new w3cws(`${baseWebsocketURL}?id=${userID}`);
 
       // confirm websocket connection
@@ -113,9 +110,7 @@ export const GlobalProvider = (props) => {
       // when receiving message
       ws.onmessage = (message) => {
         const data = JSON.parse(message.data);
-        console.log("Reply: ", data);
         if (data.type === "message") {
-          console.log("data :>> ", data);
           updateConvo({
             msg: data.msg,
             username: data.username,
@@ -162,7 +157,6 @@ export const GlobalProvider = (props) => {
             userID,
             convoPartner,
           });
-          console.log("res.data :>> ", res.data);
           if (res?.data) {
             // place users in searchable list
             globalDispatcher({
