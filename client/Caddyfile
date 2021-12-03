@@ -5,7 +5,7 @@ jonbernal.com {
   // }
 
   handle * {
-     root * /root/project/client/build
+     root * /root/guild-messenger-codechallenge/client/build
      encode zstd gzip
      try_files {path} {path}/ /index.html
 
