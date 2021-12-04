@@ -12,7 +12,7 @@ MongoClient.connect(
   (err, db) => {
     router.post("/login", async (req, res) => {
       try {
-        if (!req.body.username) return req.status(400);
+        if (!req.body.username) return res.status(400);
         const user = await db
           .db("messengerApp")
           .collection("users")

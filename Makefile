@@ -7,10 +7,12 @@ buildClient:
 stopAll:
 	caddy stop
 	pm2 stop all
+startServices:
+	pm2 start ./backend/server.js
+	caddy run --config ./client/Caddyfile
 deploy:
 	make stopAll
 	make installClient
 	make installBackend
 	make buildClient
-	caddy run --config ./client/Caddyfile
-	cd backend && pm2 start server.js
+	make startServices

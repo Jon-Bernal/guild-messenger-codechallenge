@@ -4,6 +4,10 @@ jonbernal.com {
      reverse_proxy /api/* localhost:5000
    }
 
+   log {
+        output stdout
+   }
+
   handle * {
      root * /root/guild-messenger-codechallenge/client/build
      encode zstd gzip
