@@ -19,8 +19,16 @@ MongoClient.connect(
           .findOne({ username: req.body.username });
 
         if (!user) return res.status(404).json({ error: "no user found" });
+
+        const match = await bcrypt.compare(req.body.pass, user.pass);
+        if (!match) throw "Incorrect username or password";
+        console.log("match :>> ", match);
+
         res.status(200).json({ username: user.username, userID: user._id });
       } catch (err) {
+        if (err === "Incorrect username or password") {
+          res.json({ error: "Incorrect username or password" });
+        }
         console.log("login error :>> ", err);
         res.status(500);
       }
