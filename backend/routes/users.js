@@ -14,15 +14,11 @@ MongoClient.connect(
       try {
         const projection = { username: 1, pass: 0 };
 
-        console.log("req.query :>> ", req.query);
-
         const data = await db
           .db("messengerApp")
           .collection("users")
           .find({}, projection)
           .toArray();
-
-        console.log("data :>> ", data);
 
         if (!data) return res.status(404).json({ error: "no users found" });
 
