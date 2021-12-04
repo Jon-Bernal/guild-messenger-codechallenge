@@ -84,7 +84,6 @@ async function run() {
             .findOne({
               $and: [{ userList: senderID }, { userList: recipient }],
             });
-          console.log("convo :>> ", convo);
           if (convo) {
             const test1 = await db
               .db("messengerApp")
@@ -98,7 +97,6 @@ async function run() {
                 },
                 { upsert: true }
               );
-            console.log("test1 :>> ", test1);
           } else {
             const test2 = await db
               .db("messengerApp")
@@ -110,19 +108,14 @@ async function run() {
                 },
                 { upsert: true }
               );
-            console.log("test2 :>> ", test2);
           }
-          console.log("users :>> ", users);
-          // no convoID, create one and add userids
 
-          // send only to users in convoid
-
-          // TODO: change this from all clients to only clients on chat list
-          // broadcasting message to ALL connected clients
-          for (key in clients) {
-            clients[key].sendUTF(message.utf8Data);
-            console.log(`sent message to: ${clients[key]}`);
-          }
+          // Send message to recipient
+          clients[recipient].sendUTF(message.utf8Data);
+          console.log(`sent message to: ${clients[recipient]}`);
+          // Send message back to original sender to confirm
+          clients[senderID].sendUTF(message.utf8Data);
+          console.log(`sent message to: ${clients[senderID]}`);
         }
       });
     });

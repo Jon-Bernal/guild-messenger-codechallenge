@@ -29,11 +29,13 @@ export const globalReducer = (state, action) => {
         ...state,
         pass: action.pass,
       };
+
     case "set username":
       return {
         ...state,
         username: action.username,
       };
+
     case "login successful":
       return {
         ...state,
@@ -42,47 +44,61 @@ export const globalReducer = (state, action) => {
         username: action.username,
         userID: action.userID,
       };
+
     case "login failed":
       return {
         ...state,
         loggedIn: false,
         loginError: action.errMsg,
       };
+
     case "log out":
       return {
         ...initState,
       };
+
     case "change convo input":
       return {
         ...state,
         convoInput: action.string,
       };
+
     case "sent convo message":
       return {
         ...state,
         convoInput: "",
       };
+
     case "received msg":
-      return {
-        ...state,
-        convo: [...state.convo, action.msg],
-        convoInput: "",
-      };
+      if (
+        action.msg.senderID === state.convoPartner ||
+        action.msg.recipient === state.convoPartner
+      ) {
+        return {
+          ...state,
+          convo: [...state.convo, action.msg],
+        };
+      }
+      return state;
+
     case "set userList":
       return {
         ...state,
         userList: action.userList,
       };
+
     case "set convoPartner":
       return {
         ...state,
         convoPartner: action.userID,
       };
+
     case "set convo":
       return {
         ...state,
         convo: action.convo,
       };
+
     default:
       return state;
   }
@@ -118,6 +134,7 @@ export const GlobalProvider = (props) => {
             msg: data.msg,
             username: data.username,
             userID: data.userID,
+            recipient: data.recipient,
           });
         }
       };
