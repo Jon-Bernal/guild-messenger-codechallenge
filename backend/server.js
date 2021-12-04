@@ -12,6 +12,8 @@ const convoRoutes = require("./routes/convo");
 
 let wsServer;
 
+console.log("process.env.MONGO_URL :>> ", process.env.MONGO_URL);
+
 async function run() {
   try {
     // ===== setup express server ===== //
