@@ -10,6 +10,8 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const convoRoutes = require("./routes/convo");
 
+let wsServer;
+
 async function run() {
   try {
     // ===== setup express server ===== //
@@ -34,7 +36,7 @@ async function run() {
       console.log(`Example app listening at http://localhost:${port}/api`);
     });
 
-    const wsServer = new webSocketServer({
+    wsServer = new webSocketServer({
       httpServer: app,
     });
 
@@ -123,7 +125,7 @@ async function run() {
     // Stop the servers, something went really wrong!
     console.log("WARNING: node has exited with the following error!!!");
     console.log(err);
-    ws.shutDown();
+    wsServer.shutDown();
     process.exit(1);
   }
 }
