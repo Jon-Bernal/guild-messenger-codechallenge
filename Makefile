@@ -6,6 +6,15 @@ buildClient:
 	cd client && npm run build
 buildBackend:
 	cd backend && npm run build
+stopAll:
+	caddy stop
+	pm2 stop all
 deploy:
+	make stopAll
+	make installClient
+	make installBackend
+	make buildClient
+	make buildBackend
+	make deploy
 	caddy run --config ./client/Caddyfile
 	cd backend && pm2 start server.js
