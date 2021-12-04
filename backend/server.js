@@ -20,9 +20,9 @@ async function run() {
     // leaving this wide open, wouldn't do that for a production app
     app.use(cors());
 
-    app.use("/auth", authRoutes);
-    app.use("/users", userRoutes);
-    app.use("/convo", convoRoutes);
+    app.use("/api/auth", authRoutes);
+    app.use("/api/users", userRoutes);
+    app.use("/api/convo", convoRoutes);
 
     const db = await MongoClient.connect(`${process.env.MONGO_URL}`, {
       // @ts-ignore
@@ -31,7 +31,7 @@ async function run() {
     });
 
     const expressServer = app.listen(port, () => {
-      console.log(`Example app listening at http://localhost:${port}`);
+      console.log(`Example app listening at http://localhost:${port}/api`);
     });
 
     const wsServer = new webSocketServer({

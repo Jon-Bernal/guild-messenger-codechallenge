@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb");
 const router = require("express").Router();
+const bcrypt = require("bcrypt");
 
 MongoClient.connect(
   `${process.env.MONGO_URL}`,
