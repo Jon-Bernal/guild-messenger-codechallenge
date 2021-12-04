@@ -28,15 +28,13 @@ I plan to try and throw this on a "production" test server for fun over the week
 - terminal 2: cd client
 - terminal 2: npm start
 
-### Things to improve for a real production app
+## Design decisions and explanations
 
-- Make one mongodb pool of connections to reuse instead of three pools.
-- Use Fastify or Adonis.js instead of Expressjs. Express is starting to show it's age unfortunately.
-- Use redis or something similar to keep track of connections across multiple servers or use a pub/sub setup with something like graphql. I would also consider using something like [socket.io](http://socket.io/) which would have better documentation around it for a team to use.
-- I considered making things less explicit when just changing a single field with the global reducer. However I prefer to think in terms of actions rather than fields that are changed in the database. If this were a long term project I would fix some of the reducer states and turn them into user actions instead which makes things much clearer. Also I would use a finite state machine wherever possible, because they're the best!
-- Loading the entire user list into the client is not ideal. Should be a search feature server side rather than dumping all usernames to the client. It's slow, heavy with lots of users.
-- styling is all over the place, because went for speed not for neatness, I prefer to use a single system and not css plus inline styling all over the place. I'm a fan of SCSS, SASS and LESS, but also enjoy just plain old css. Not as big of a fan of css in js, but I'd get over it if the team is using that.
-- No backend routes are actually protected by the user auth, it's just really just there to gather usernames for conversations between two users and making IDs.
+The challenge is to create a messaging application that will allow two people to send messages to each other. There are a number of different ways to accomplish this task with pros and cons to each. The choices I came up with on the spot were websockets, long polling, timed check-ins and peer to peer connections, there are more, but those were the easiest.
+
+Long polling is doable but less reliable than a websocket and actually takes more time to setup than a websocket, so that was out. Timed check-ins, periodically asking the server if there are new messages and and requesting them if there are, would be simple but slower and have more overhead. A peer to peer connection is fast and light, but I am less familiar with them and hammering it out in a couple of hours would have been a challenge. Also a peer to peer connection means no storage of the conversation. Lastly websockets are fast and light but have a little extra setup and work when it comes to deploying to production with a reverse proxy and with scaling past one server but we're not actually putting this in production.
+
+I finished the websocket server and a frontend that would send and receive messages in about an hour and was enjoying it enough I decided to bite off a bit too much. I wanted to be able to allow users to send messages to a particular user and only that user as well store the conversation history. I chose MongoDB Atlas because of how quick and simple it is to setup a database and I wouldn't have to wrangle tables and migrations throughout working on this quick project. Lastly I chose to use express for similar reasons. I am very familiar with it, however I wouldn't use it in production these days. I would be more likely to reach for something like Fastify because it is more performant.
 
 ### Some known bugs and limitations
 
@@ -45,4 +43,12 @@ I plan to try and throw this on a "production" test server for fun over the week
 - To update userlist you must reload the application. I would consider updating list using websocket if I were going to keep doing it this way. However it's bad practice to ship so much user data to the client (performance issues). I would instead make this a server side search. This was just much faster to make for a quick and dirty code challenge.
 - Jest testing throws an error around the web socket. This is fixable but would take a bit more time than I had.
 
-## Design decisions and explanations
+### Things to improve for a real production app
+
+- Make one Mongodb pool of connections to reuse instead of three pools.
+- Use Fastify or Adonis.js instead of Expressjs. Express is starting to show it's age unfortunately.
+- Use Redis or something similar to keep track of connections across multiple servers or use a pub/sub setup with something like Graphql. I would also consider using something like [socket.io](http://socket.io/) which would have better documentation around it for a team to use.
+- I considered making things less explicit when just changing a single field with the global reducer. However I prefer to think in terms of actions rather than fields that are changed in the database. If this were a long term project I would fix some of the reducer states and turn them into user actions instead which makes things much clearer. Also I would use a finite state machine wherever possible, because they're the best!
+- Loading the entire user list into the client is not ideal. Should be a search feature server side rather than dumping all usernames to the client. It's slow, heavy with lots of users.
+- styling is all over the place, because went for speed not for neatness, I prefer to use a single system and not css plus inline styling all over the place. I'm a fan of SCSS, SASS and LESS, but also enjoy just plain old css. Not as big of a fan of css in js, but I'd get over it if the team is using that.
+- No backend routes are actually protected by the user auth, it's just really just there to gather usernames for conversations between two users and making IDs.
