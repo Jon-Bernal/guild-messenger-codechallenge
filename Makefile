@@ -1,9 +1,9 @@
 installClient:
-	cd client && npm install
+	cd client && npm install && cd ..
 installBackend:
-	cd backend && npm install
+	cd backend && npm install && cd ..
 buildClient:
-	cd client && npm run build
+	cd client && npm run build && cd ..
 stopAll:
 	caddy stop
 	pm2 stop all
