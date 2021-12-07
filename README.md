@@ -1,9 +1,5 @@
 # Messenger App Read Me
 
-## View Live
-
-I plan to try and throw this on a "production" test server for fun over the weekend. I can't guarantee I'll get to it, but hopefully you'll be able to see a live example running [here](https://jonbernal.com/)
-
 ## To Install and Run Locally
 
 ### Requirements:
@@ -36,12 +32,15 @@ Long polling is doable but less reliable than a websocket and actually takes mor
 
 I finished the websocket server and a frontend that would send and receive messages in about an hour and was enjoying it enough I decided to bite off a bit too much. I wanted to be able to allow users to send messages to a particular user and only that user as well store the conversation history. I chose MongoDB Atlas because of how quick and simple it is to setup a database and I wouldn't have to wrangle tables and migrations throughout working on this quick project. Lastly I chose to use express for similar reasons. I am very familiar with it, however I wouldn't use it in production these days. I would be more likely to reach for something like Fastify because it is more performant.
 
+Lastly I chose to go with as close to just websocket API as I could. I had a few reasons for doing this and most were curiosity. I have implemented a production websocket connection with graphQL using a pub/sub system and redis in the past and it has been a wonderful system. I didn't userstand as much of the system as I would like to have. I was considering using socket.io, but I felt I would learn more by trying out a mostly bare websocket api. I learned quite a bit along the way about the extra features many websocket packages bring to the table and why they're important. For instance
+
 ### Some known bugs and limitations
 
 - Restarts or crashes on server drops websocket connection which means everyone has to reload their web browser, which includes changing the code.
 - Needs a way to limit number of concurrent websockets so it won't get overloaded with no way to fix.
 - To update userlist you must reload the application. I would consider updating list using websocket if I were going to keep doing it this way. However it's bad practice to ship so much user data to the client (performance issues). I would instead make this a server side search. This was just much faster to make for a quick and dirty code challenge.
 - Jest testing throws an error around the web socket. This is fixable but would take a bit more time than I had.
+- I used a websocket only package which is simple but not ideal. There is no fallback or fix for when the websocket connection is severed. In the future I would use something like socket.io because it has a reconnect feature and uses long polling before upgrading to websockets, which means there is a nice fall back in case the ideal case doesn't work.
 
 ### Things to improve for a real production app
 
